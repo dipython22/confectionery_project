@@ -1,4 +1,6 @@
 from django.contrib import admin
+
+# from confectionery.tortukai.models import Occasion
 from .models import Occasion, Client, Cake, Order
 
     
@@ -9,10 +11,31 @@ class ClientAdmin(admin.ModelAdmin):
 
 class CakeAdmin(admin.ModelAdmin):
     list_display = ('cake_name', 'description', 'occasion')
+    list_filter = ('occasion__title', )
 
 
 class OrderAdmin(admin.ModelAdmin):
-    list_display = ('deadline', 'status', 'notice', 'id', 'client') # 'cake'
+    list_display = ('id', 'deadline', 'status', 'notice', 'client') # 'cake'
+    list_filter = ('status', 'cake__cake_name', 'deadline')
+    search_fields = ('id', 'client__last_name')
+    readonly_fields = ('id', )
+    list_editable = ('deadline', 'status') 
+    # list_display_links = ('deadline', 'status')
+
+
+    fieldsets = (
+        ('Pagrindinė Informacija', {'fields': (
+                'id', 
+                'client', 
+
+            )}),
+        ('Užsakymo būsena', {'fields': (
+                'status', 
+                'deadline', 
+                'notice',
+            )}),
+    )
+
     
 
 # Register your models here.

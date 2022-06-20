@@ -16,8 +16,8 @@ class Occasion(models.Model):
 class Client(models.Model):
     first_name = models.CharField('vardas', max_length=100)
     last_name = models.CharField('pavardė', max_length=100)
-    email_name = models.EmailField('el.paštas', max_length = 250)
-    phone_number = models.IntegerField('tel.nr.:', default = 370)
+    email_name = models.EmailField('el.paštas', max_length = 250, default='@')
+    phone_number = models.CharField('tel.nr.:', default = '+370', max_length = 20)
 
 
     def __str__(self):
@@ -54,7 +54,7 @@ class Order(models.Model):
     STAGE = (
         ('p', 'patvirtintas'),
         ('g', 'gaminamas'),
-        ('a', 'paruošta atsiemimui')
+        ('a', 'paruoštas atsiemimui')
     )
 
     status = models.CharField('užsakymo būsena', max_length=1, choices=STAGE, blank=True, default='p', db_index=True)
