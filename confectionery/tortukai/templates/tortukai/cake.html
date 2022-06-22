@@ -1,0 +1,15 @@
+{% extends 'tortukai/base.html' %}
+
+{% block title %}
+{{cake}} | aprasymas
+{% endblock %}
+
+{% block content %}
+<div class="container py-3">
+    <h1> {{cake}} </h1>
+    {% if cake.description %}
+    <p>{{ cake.description }}</p>
+    {% endif %}
+    <p>{{cake.occasion}}</p>
+</div>
+{% endblock %}
