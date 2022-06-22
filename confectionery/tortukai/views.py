@@ -16,6 +16,8 @@ def about(request):
 # Create your views here.
 def cakes(request):
     cakes = Cake.objects.all()
-    return render(request, 'cakes/cakes.html', {'authors': authors})
+    return render(request, 'tortukai/cakes.html', {'cakes': cakes})
 
-
+def cake(request, cake_id):
+    cake = get_object_or_404(Cake, pk=cake_id)
+    return render(request, 'tortukai/cake.html', {'cake': cake})

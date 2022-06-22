@@ -1,9 +1,19 @@
 {% extends 'tortukai/base.html' %}
 
 {% block title %}
-Tortai
+siulomi tortukai
 {% endblock %}
 
 {% block content %}
-<p class="text-center text-capitalize text-dark special">Tortai</p>
+<div class="container py-3">
+    <h1 background-color: red> Siūlomų tortukų pavadinimai</h1>
+    <div class="list-group">
+    {% for cake in cakes %}
+        <a class="list-group-item list-group-item-action d-flex justify-content-between align-items-center" href="{% url 'cake' cake.id %}">
+            {{ cake }}
+        </a>
+    {% endfor %}
+    </div>
+</div>
+
 {% endblock %}
