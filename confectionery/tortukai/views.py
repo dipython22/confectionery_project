@@ -1,11 +1,13 @@
 from django.shortcuts import render
-from django.http import HttpResponse
 
 
-def index(request):
-    return render(request, "tortukai/index.html")
+def home(request):
+    return render(request, "tortukai/home.html")
 
 def order(request):
     return render(request, "tortukai/orders.html")
+
+def about(request):
+    return render(request, "tortukai/about.html")
 
 # Create your views here.
