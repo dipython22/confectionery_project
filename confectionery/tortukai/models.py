@@ -18,8 +18,8 @@ class Client(models.Model):
     first_name = models.CharField('vardas', max_length=100)
     last_name = models.CharField('pavardė', max_length=100)
     email_name = models.EmailField('el.paštas', max_length = 250, default='@')
-    # phone_number = models.CharField('tel.nr.:', default = '+370', max_length = 20)
-    phone_number= models.PositiveIntegerField('nr',)
+    phone_number = models.CharField('tel.nr.:', default = '+370', max_length = 12)
+    # phone_number= models.PositiveIntegerField('nr',)
 
 
     def __str__(self):
@@ -52,14 +52,17 @@ class Order(models.Model):
     cake = models.ManyToManyField(Cake, verbose_name='tortas', related_name='orders')
     deadline = models.DateField('pagaminti datai: ', null=False, blank=True, db_index=True)
     notice = models.CharField(('pastabos'), max_length=500, null=True, default='')
+    total_price = models.DecimalField('Užsakymo suma: ',max_digits=6, decimal_places=2, null=True, blank=True)
 
+    def display_cakes(self):
+        return ', '.join(cake.cake_name for cake in self.cake.all()[:7])
+    display_cakes.short_description = 'torto pavadinimas'
 
     STAGE = (
         ('p', 'patvirtintas'),
         ('g', 'gaminamas'),
         ('a', 'paruoštas atsiemimui')
     )
-    
 
     status = models.CharField('užsakymo būsena', max_length=1, choices=STAGE, blank=True, default='p', db_index=True)
     

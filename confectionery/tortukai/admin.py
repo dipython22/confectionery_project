@@ -10,23 +10,25 @@ class ClientAdmin(admin.ModelAdmin):
 
 
 class CakeAdmin(admin.ModelAdmin):
-    list_display = ('cake_name', 'description', 'occasion')
+    list_display = ('cake_name', 'description', 'occasion', 'price',)
     list_filter = ('occasion__title', )
-    list_editable: Sequence[str]
+    list_editable = ('price',)
+
 
 class OrderAdmin(admin.ModelAdmin):
-    list_display = ('id', 'deadline', 'status', 'notice', 'client') # 'cake'
-    list_filter = ('status', 'cake__cake_name', 'deadline')
+    list_display = ('id', 'display_cakes', 'deadline', 'status', 'notice', 'client',)
+    list_filter = ('status', 'client__last_name', 'deadline')
     search_fields = ('id', 'client__last_name')
     readonly_fields = ('id', )
     list_editable = ('deadline', 'status') 
     # list_display_links = ('deadline', 'status')
 
-
     fieldsets = (
         ('Pagrindinė Informacija', {'fields': (
                 'id', 
-                'client', 
+                'client',
+                'cake',
+                # 'display_cakes', 
 
             )}),
         ('Užsakymo būsena', {'fields': (
