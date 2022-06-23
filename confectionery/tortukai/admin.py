@@ -12,7 +12,7 @@ class ClientAdmin(admin.ModelAdmin):
 class CakeAdmin(admin.ModelAdmin):
     list_display = ('cake_name', 'description', 'occasion')
     list_filter = ('occasion__title', )
-
+    list_editable: Sequence[str]
 
 class OrderAdmin(admin.ModelAdmin):
     list_display = ('id', 'deadline', 'status', 'notice', 'client') # 'cake'

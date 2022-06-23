@@ -1,3 +1,4 @@
+from msilib.schema import Property
 from django.db import models
 import uuid
 
@@ -17,7 +18,8 @@ class Client(models.Model):
     first_name = models.CharField('vardas', max_length=100)
     last_name = models.CharField('pavardė', max_length=100)
     email_name = models.EmailField('el.paštas', max_length = 250, default='@')
-    phone_number = models.CharField('tel.nr.:', default = '+370', max_length = 20)
+    # phone_number = models.CharField('tel.nr.:', default = '+370', max_length = 20)
+    phone_number= models.PositiveIntegerField('nr',)
 
 
     def __str__(self):
@@ -33,6 +35,7 @@ class Cake(models.Model):
     cake_name = models.CharField('torto pavadinimas', max_length=156)
     description = models.TextField('trumas aprašymas', max_length=1000, default='Aprašymas ruošiamas')
     occasion = models.ForeignKey(Occasion, on_delete=models.PROTECT, null=True, related_name='cakes', verbose_name='tinka progai')
+    price = models.DecimalField('kaina',max_digits=5, decimal_places=2, null=True, blank=True)
 
     def __str__(self):
         return f'{str(self.cake_name)}'
@@ -56,6 +59,7 @@ class Order(models.Model):
         ('g', 'gaminamas'),
         ('a', 'paruoštas atsiemimui')
     )
+    
 
     status = models.CharField('užsakymo būsena', max_length=1, choices=STAGE, blank=True, default='p', db_index=True)
     

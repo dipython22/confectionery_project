@@ -8,8 +8,8 @@
 <div class="container py-3">
     <h1> {{cake}} </h1>
     {% if cake.description %}
-    <p>{{ cake.description }}</p>
+    <p><strong>Trumpas aprašymas: </strong> {{ cake.description }}</p>
     {% endif %}
-    <p>{{cake.occasion}}</p>
+    <p><strong>Proga - </strong>{{cake.occasion}}</p>
 </div>
 {% endblock %}
