@@ -11,5 +11,32 @@
     <p><strong>Trumpas aprašymas: </strong> {{ cake.description }}</p>
     {% endif %}
     <p><strong>Proga - </strong>{{cake.occasion}}</p>
+    <p><strong>1kg kaina - </strong> {{cake.price}}eur</p>
 </div>
+<div>   <h4>Atsiliepimai</h4>
+    {% if cake.cake_reviews.count > 0%}
+        {% for review in cake.cake_reviews.all %}
+        <div class="card">
+            <div class="card-body">
+                <span class="text-muted float-right">{{ review.created_at }}</span>
+                <h5 class="card-title">{{ review.client }}</h5>
+                {{ review.content|safe }}
+            </div>
+        </div>
+        {% endfor %}
+    {% else %}
+        <div class="alert alert-secondary">Šiuo metu nėra atsiliepimų</div>
+    {% endif %}
+    {% if user.is_authenticated %}
+    <div class="FieldWrapper">
+        <h5>Palikite Atsiliepimą</h5>
+        <form method="post" action="">
+            {% csrf_token%}
+            {{ form.content }}<br/>
+            <input type="submit" value="išsaugoti" class="btn btn-primary">
+        </form>
+    </div>
+    {% endif %}</div>
 {% endblock %}
+
+

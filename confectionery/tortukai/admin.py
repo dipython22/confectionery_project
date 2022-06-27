@@ -1,11 +1,10 @@
 from django.contrib import admin
-
-# from confectionery.tortukai.models import Occasion
-from .models import Occasion, Client, Cake, Order
+from .models import Occasion, Client, Cake, Order, CakeReview
 
     
 class ClientAdmin(admin.ModelAdmin):
-    list_display = ('first_name', 'last_name', 'email_name', 'phone_number')
+    list_display = ('first_name', 'last_name', 'email_name', 'phone_number',)
+    
 
 
 
@@ -16,9 +15,9 @@ class CakeAdmin(admin.ModelAdmin):
 
 
 class OrderAdmin(admin.ModelAdmin):
-    list_display = ('id', 'display_cakes', 'deadline', 'status', 'notice', 'client',)
+    list_display = ('id', 'display_cakes', 'deadline', 'status', 'notice', 'client', 'customer',)
     list_filter = ('status', 'client__last_name', 'deadline')
-    search_fields = ('id', 'client__last_name')
+    search_fields = ('id', 'client__last_name','customer__username',)
     readonly_fields = ('id', )
     list_editable = ('deadline', 'status') 
     # list_display_links = ('deadline', 'status')
@@ -28,6 +27,7 @@ class OrderAdmin(admin.ModelAdmin):
                 'id', 
                 'client',
                 'cake',
+                'customer',
                 # 'display_cakes', 
 
             )}),
@@ -45,3 +45,4 @@ admin.site.register(Occasion)
 admin.site.register(Client, ClientAdmin)
 admin.site.register(Cake, CakeAdmin)
 admin.site.register(Order, OrderAdmin)
+admin.site.register(CakeReview)

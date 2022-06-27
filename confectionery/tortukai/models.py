@@ -1,6 +1,12 @@
-from msilib.schema import Property
+# from msilib.schema import Property
+from http import client
 from django.db import models
+from django.contrib.auth.models import User
 import uuid
+from tinymce.models import HTMLField
+from datetime import date
+
+
 
 class Occasion(models.Model):
     title = models.CharField('progos pavadinimas', max_length=100, )
@@ -33,7 +39,7 @@ class Client(models.Model):
 
 class Cake(models.Model):
     cake_name = models.CharField('torto pavadinimas', max_length=156)
-    description = models.TextField('trumas aprašymas', max_length=1000, default='Aprašymas ruošiamas')
+    description = HTMLField('trumas aprašymas', default='Aprašymas ruošiamas', null=True, blank=True)
     occasion = models.ForeignKey(Occasion, on_delete=models.PROTECT, null=True, related_name='cakes', verbose_name='tinka progai')
     price = models.DecimalField('kaina',max_digits=5, decimal_places=2, null=True, blank=True)
 
@@ -53,6 +59,8 @@ class Order(models.Model):
     deadline = models.DateField('pagaminti datai: ', null=False, blank=True, db_index=True)
     notice = models.CharField(('pastabos'), max_length=500, null=True, default='')
     total_price = models.DecimalField('Užsakymo suma: ',max_digits=6, decimal_places=2, null=True, blank=True)
+    customer = models.ForeignKey(User, on_delete=models.PROTECT, null=True, blank=True, related_name='orders', verbose_name='užsakovas')
+
 
     def display_cakes(self):
         return ', '.join(cake.cake_name for cake in self.cake.all()[:7])
@@ -61,7 +69,8 @@ class Order(models.Model):
     STAGE = (
         ('p', 'patvirtintas'),
         ('g', 'gaminamas'),
-        ('a', 'paruoštas atsiemimui')
+        ('a', 'paruoštas atsiemimui'),
+        ('u', 'užsakyta')
     )
 
     status = models.CharField('užsakymo būsena', max_length=1, choices=STAGE, blank=True, default='p', db_index=True)
@@ -74,3 +83,31 @@ class Order(models.Model):
         ordering = ['deadline']
         verbose_name = 'užakymą'
         verbose_name_plural = 'užsakymai'
+
+class CakeReview(models.Model):
+    cake = models.ForeignKey(
+        Cake, 
+        on_delete=models.CASCADE, 
+        related_name='cake_reviews', 
+        verbose_name='tortas',
+        null=True,
+        blank=True,
+    )
+    client = models.ForeignKey(
+        User,
+        on_delete=models.SET_NULL,
+        related_name='cake_reviews',
+        verbose_name='Klientas',
+        null=True,
+        blank=True,
+    )
+    created_at = models.DateTimeField(auto_now_add=True)
+    content = HTMLField('atsiliepimas')
+
+    def __str__(self):
+        return f'{self.cake} - {self.client} - {self.created_at}'
+
+
+    class Meta:
+        verbose_name = 'kliento atsiliepimas'
+        verbose_name_plural = 'klientų atsiliepimai'
