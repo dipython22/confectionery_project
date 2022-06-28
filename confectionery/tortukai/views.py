@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect, reverse
 from django.views import generic
-from .models import Cake, Client, Occasion, Order
+from .models import Cake, Occasion, Order
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.edit import FormMixin
 from django.views.decorators.csrf import csrf_protect

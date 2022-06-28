@@ -1,5 +1,5 @@
 {% extends 'tortukai/base.html' %}
-
+{% load static %}
 {% block title %}
 {{cake}} | aprasymas
 {% endblock %}
@@ -12,7 +12,13 @@
     {% endif %}
     <p><strong>Proga - </strong>{{cake.occasion}}</p>
     <p><strong>1kg kaina - </strong> {{cake.price}}eur</p>
-
+    <div class="d-flex flex-column flex-md-row align-items-center p-3 px--mb-3 border bottom shadow-sm">
+        {% if cake.pic %}
+            <img style="max-width: 400px;" class="img-fluid img-thumbnail float-right ml-3" src="{{ cake.pic.url }}">
+        {% else %}
+            <img style="max-width: 400px;" class="img-fluid img-thumbnail float-right ml-3" src="{% static 'tortukai/img/commonpic.jpg' %}">
+        {% endif %}
+    </div>
 <div>   <h4>Atsiliepimai</h4>
     {% if cake.cake_reviews.count > 0%}
         {% for review in cake.cake_reviews.all %}
