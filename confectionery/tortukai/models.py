@@ -54,7 +54,7 @@ class Cake(models.Model):
 
 class Order(models.Model):
     id = models.UUIDField('užsakymo numeris', primary_key=True, default=uuid.uuid4, editable=False)
-    client = models.ForeignKey(Client, on_delete=models.PROTECT, null=False, related_name='orders', verbose_name='klientas')
+    old_client = models.ForeignKey(Client, on_delete=models.PROTECT, null=False, related_name='orders', verbose_name='pirkėjas')
     cake = models.ManyToManyField(Cake, verbose_name='tortas', related_name='orders')
     deadline = models.DateField('pagaminti datai: ', null=False, blank=True, db_index=True)
     notice = models.CharField(('pastabos'), max_length=500, null=True, default='')
@@ -93,7 +93,7 @@ class CakeReview(models.Model):
         null=True,
         blank=True,
     )
-    client = models.ForeignKey(
+    subscriber = models.ForeignKey(
         User,
         on_delete=models.SET_NULL,
         related_name='cake_reviews',
@@ -105,9 +105,10 @@ class CakeReview(models.Model):
     content = HTMLField('atsiliepimas')
 
     def __str__(self):
-        return f'{self.cake} - {self.client} - {self.created_at}'
+        return f'{self.cake} - {self.subscriber} - {self.created_at}'
 
 
     class Meta:
+        ordering = ['created_at']
         verbose_name = 'kliento atsiliepimas'
         verbose_name_plural = 'klientų atsiliepimai'

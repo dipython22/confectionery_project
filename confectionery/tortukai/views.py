@@ -27,7 +27,7 @@ def register(request):
             messages.error(request, f'Vartotojas {username} jau egzistuoja.')
             error = True
         if not email or User.objects.filter(email=email).exists():
-            messages.error(request, f'Vartotojas su el.praštu {email} jau egzistuoja.')
+            messages.error(request, f'Vartotojas su el.paštu {email} jau egzistuoja.')
             error = True
         if error:
             return redirect('register')
@@ -51,23 +51,10 @@ def cakes(request):
     cakes = Cake.objects.all()
     return render(request, 'tortukai/cakes.html', {'cakes': cakes})
 
-def cake(request, cake_id):
-    cake = get_object_or_404(Cake, pk=cake_id)
-    return render(request, 'tortukai/cake.html', {'cake': cake})
-
-class Ordered_cake_by_user(LoginRequiredMixin, generic.ListView):
-    model = Order
-    context_object_name = 'order_list' 
-    template_name = 'tortukai/user_orders_list.html'
-    paginate_by = 4
-
-    def get_queryset(self):
-        return super().get_queryset().filter(customer=self.request.user).filter(Q(status__exact='u') | Q(status__exact='p')).order_by('deadline')
-
 
 class CakeDetailView(generic.DetailView, FormMixin):
     model = Cake
-    template_name = 'tortukai/cake.html' #cake_detail?
+    template_name = 'tortukai/cake.html'
     form_class = CakeReviewForm
 
     def get_success_url(self):
@@ -83,8 +70,19 @@ class CakeDetailView(generic.DetailView, FormMixin):
 
     def form_valid(self, form):
         form.instance.cake = self.object
-        form.instance.client = self.request.user
+        form.instance.subscriber = self.request.user
         form.save()
         return super().form_valid(form)
+
+
+class Ordered_cake_by_user(LoginRequiredMixin, generic.ListView):
+    model = Order
+    context_object_name = 'order_list' 
+    template_name = 'tortukai/user_orders_list.html'
+    paginate_by = 4
+
+    def get_queryset(self):
+        return super().get_queryset().filter(customer=self.request.user).filter(Q(status__exact='u') | Q(status__exact='p')).order_by('deadline')
+
 
 

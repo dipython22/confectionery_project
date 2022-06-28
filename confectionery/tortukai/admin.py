@@ -15,17 +15,16 @@ class CakeAdmin(admin.ModelAdmin):
 
 
 class OrderAdmin(admin.ModelAdmin):
-    list_display = ('id', 'display_cakes', 'deadline', 'status', 'notice', 'client', 'customer',)
-    list_filter = ('status', 'client__last_name', 'deadline')
-    search_fields = ('id', 'client__last_name','customer__username',)
+    list_display = ('id', 'display_cakes', 'deadline', 'status', 'notice', 'customer',)
+    list_filter = ('status', 'deadline')
+    search_fields = ('id', 'customer__username',)
     readonly_fields = ('id', )
     list_editable = ('deadline', 'status') 
     # list_display_links = ('deadline', 'status')
 
     fieldsets = (
         ('Pagrindinė Informacija', {'fields': (
-                'id', 
-                'client',
+                'id',
                 'cake',
                 'customer',
                 # 'display_cakes', 
