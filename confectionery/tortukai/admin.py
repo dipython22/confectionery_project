@@ -24,9 +24,9 @@ class OrderLineInline(admin.StackedInline): ## Padaryti, kad užsakymo formoje b
 
 
 class OrderAdmin(admin.ModelAdmin):
-    list_display = ('id', 'deadline', 'status', 'notice', 'customer', ) #'display_cakes'
+    list_display = ('id', 'deadline', 'status', 'customer', 'order_total_price', 'notice',) #'display_cakes'
     inlines = (OrderLineInline, ) ## Padaryti, kad užsakymo formoje būtų matomos ir užsakymo eilutės (į jas galima būtų įrašyti informaciją)
-    list_filter = ('status', 'deadline')
+    list_filter = ('status', 'deadline',)
     search_fields = ('id', 'customer__username',)
     readonly_fields = ('id', )
     list_editable = ('deadline', 'status','customer',) 
@@ -35,28 +35,26 @@ class OrderAdmin(admin.ModelAdmin):
     fieldsets = (
         ('Pagrindinė Informacija', {'fields': (
                 'id',
-                # 'cake',
                 'customer',
-                # 'display_cakes', 
+                'order_total_price', 
 
             )}),
         ('Užsakymo būsena', {'fields': (
-                'status', 
-                'deadline', 
+                ('status', 'deadline'),
                 'notice',
             )}),
     )
 
+
 class OrderLineAdmin(admin.ModelAdmin):
-    list_display = ('order', 'cake', 'quantity', 'price', 'remark', ) 
+    list_display = ('order', 'cake', 'quantity', 'discount', 'summ_per_line', 'remark', ) 
     list_filter = ('cake', 'order__deadline', )
     search_fields = ('order__username', )
     readonly_fields = ('line_created', )
-    list_editable = ('quantity', 'price', 'cake', ) #,'customer',) 
+    list_editable = ('cake', 'quantity', 'discount', ) #,'customer',) 
 
-# Register your models here.
+
 admin.site.register(Occasion)
-# admin.site.register(Client, ClientAdmin)
 admin.site.register(Cake, CakeAdmin)
 admin.site.register(Order, OrderAdmin)
 admin.site.register(OrderLine, OrderLineAdmin)

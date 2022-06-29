@@ -6,11 +6,11 @@ siulomi tortukai
 
 {% block content %}
 <div class="container py-3">
-    <h1 background-color: red> Siūlomų tortukų pavadinimai</h1>
+    <h1 background-color: red> Siūlomi tortai &#127856;</h1>
     <div class="list-group">
     {% for cake in cakes %}
         <a class="list-group-item list-group-item-action d-flex justify-content-between align-items-center" href="{% url 'cake' cake.id %}">
-            {{ cake }}
+            {{ cake.cake_name }}
         </a>
     {% endfor %}
     </div>

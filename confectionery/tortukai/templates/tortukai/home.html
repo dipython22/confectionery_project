@@ -1,15 +1,14 @@
 {% extends 'tortukai/base.html' %}
-
+{% load static %}
 {% block title %} Dios konditerija {% endblock %}
 
 {% block content %}
 {% if request.user.is_authenticated %}
-<a class="text-#5e0969 text-center">Ačiū, kad užsukai {{ user.username }} ;)</a>
-<a class="p-2"><span class="nav-link">&#128100; {{ user.username }}</span></a>
+    <a class="text-#5e0969 text-center">Ačiū, kad užsukote {{ user.username }} </a>
+    <a class="p-2"><span class="nav-link">&#128100; {{ user.username }}</span></a>
 {% else %}
-<p> <strong> Dėmesio! Registruotiems vartotojams visiems užsakymams 10% nuolaida. </strong> <img src="discountsmile.PNG"/> </p>
-<p><a href="{% url 'login' %}?next={{ request.path }}"> <img src="heh.PNG"/> Prisijungti</a></p>
-<p><a href="{% url 'register' %}"> <img src="pls.PNG"/> Registruotis</a></p>
+    <p> <strong> Dėmesio! Registruotiems vartotojams visiems užsakymams 10% nuolaida. </strong> <img src="{% static 'tortukai/img/discountsmile.PNG'%}"/></p>
+    <p><a href="{% url 'login' %}?next={{ request.path }}"> <img src="{% static 'tortukai/img/heh.PNG'%}"/>Prisijungti</a></p>
+    <p><a href="{% url 'register' %}"><img src="{% static 'tortukai/img/heh.PNG'%}"/> Registruotis</a></p>
 {% endif %}
-
 {% endblock %}

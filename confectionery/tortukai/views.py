@@ -46,7 +46,6 @@ def order(request):
 def about(request):
     return render(request, "tortukai/about.html")
 
-# Create your views here.
 def cakes(request):
     cakes = Cake.objects.all()
     return render(request, 'tortukai/cakes.html', {'cakes': cakes})
@@ -73,16 +72,3 @@ class CakeDetailView(generic.DetailView, FormMixin):
         form.instance.subscriber = self.request.user
         form.save()
         return super().form_valid(form)
-
-
-class Ordered_cake_by_user(LoginRequiredMixin, generic.ListView):
-    model = Order
-    context_object_name = 'order_list' 
-    template_name = 'tortukai/user_orders_list.html'
-    paginate_by = 4
-
-    def get_queryset(self):
-        return super().get_queryset().filter(customer=self.request.user).filter(Q(status__exact='u') | Q(status__exact='p')).order_by('deadline')
-
-
-

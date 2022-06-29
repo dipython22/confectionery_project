@@ -8,6 +8,6 @@ urlpatterns = [
     path('apie', views.about, name = "about"),
     path('cakes/', views.cakes, name='cakes'),
     path('cake/<int:pk>/', views.CakeDetailView.as_view(), name='cake'),
-    path('my_orders/', views.Ordered_cake_by_user.as_view(), name='my_orders'),
+    # path('my_orders/', views.Ordered_cake_by_user.as_view(), name='my_orders'),
     path('register/', views.register, name='register'),
     ]
